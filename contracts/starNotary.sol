@@ -2,6 +2,7 @@ pragma solidity 0.6.10;
 import 'openzeppelin-solidity/contracts/token/ERC721/ERC721.sol';
 
 contract starNotary is ERC721{
+  constructor() ERC721("StarINfo","STR") public {}
   struct Star{
     string _name;
   }
@@ -21,7 +22,7 @@ contract starNotary is ERC721{
 
   function buyStar(uint256 _tokenid) public payable{
     require(_tokenidtoPrice[_tokenid]>0,"The star should be for sale");
-    address starOwner=_tokenidtoStar[_tokenid];
+    address starOwner=ownerOf(_tokenid);
     uint256 starCost=_tokenidtoPrice[_tokenid];
     require(msg.value>starCost,"The value is not sufficeint to buy the star");
     transferFrom(starOwner,msg.sender,_tokenid);
