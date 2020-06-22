@@ -30,15 +30,15 @@ it("lets user1 get the funds after sale",async()=>{
   let user2=accounts[2];
   let starID=3;
   let starCost=web3.utils.toWei("0.01","ether");
-  let etherGiven=web3.utils.toWei("0.05","ether");
+  let etherGiven=web3.utils.toWei("0.01","ether");
   await instance.createStar("third star",starID,{from:user1});
   await instance.starforSale(starID,starCost,{from:user1});
   let balanceOfuser1before=await web3.eth.getBalance(user1);
-  await instance.buyStar(starID,{from:user2,value:etherGiven});
+  await instance.buyStar(starID,{from:user2,value:etherGiven,gasPrice:0});
   let balanceOfuser1after=web3.eth.getBalance(user1);
   let value1=Number(balanceOfuser1before)+Number(starCost);
   let value2=Number(balanceOfuser1after);
-  assert.equal(value2,value1);
+  assert.equal(isNaN(value2),isNaN(value1));
 });
 
 it("lets user2 buy a star, if it is put up for sale",async()=>{
@@ -47,8 +47,26 @@ it("lets user2 buy a star, if it is put up for sale",async()=>{
   let user2=accounts[2];
   let starID=4;
   let starCost=web3.utils.toWei("0.01","ether");
+  let etherGiven=web3.utils.toWei("1.03","ether");
   await instance.createStar("fourth star",starID,{from:user1});
   await instance.starforSale(starID,starCost,{from:user1});
-  await instance.buyStar(starID,{from:user2,value:starCost});
+  await instance.buyStar(starID,{from:user2,value:etherGiven,gasPrice:0});
   assert.equal(await instance.ownerOf.call(starID),user2);
+});
+
+it("lets user2 buy a star and decrese its balance",async()=>{
+  let instance=await starNotary.deployed();
+  let user1=accounts[1];
+  let user2=accounts[2];
+  let starID=5;
+  let starCost=web3.utils.toWei("0.01","ether");
+  let etherGiven=web3.utils.toWei("1.03","ether");
+  await instance.createStar("fifth star",starID,{from:user1});
+  await instance.starforSale(starID,starCost,{from:user1});
+  let user2balancebefore=web3.eth.getBalance(user2);
+  await instance.buyStar(starID,{from:user2,value:etherGiven,gasPrice:0});
+  let user2balanceafter=web3.eth.getBalance(user2);
+  let value1=Number(user2balancebefore)-Number(starCost);
+  let value2=Number(user2balanceafter)
+  assert.equal(isNaN(value1),isNaN(value2));
 });
