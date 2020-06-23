@@ -91,7 +91,7 @@ it("exchange 2 stars",async()=>{
   let id2=8;
   await instance.createStar("Seventh star",id1,{from:user1});
   await instance.createStar("Eighth star",id2,{from:user2});
-  await instance.exchangeStar(id1,id2,{from:user1});
+  await instance.exchangeStar(id1,user1,id2,user2,{from:user1});
   assert.equal(await instance.ownerOf(id1),user2);
   assert.equal(await instance.ownerOf(id2),user1);
 });
