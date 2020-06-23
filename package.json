@@ -10,5 +10,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "openzeppelin-solidity": "^3.0.2",
+    "truffle-hdwallet-provider": "^1.0.17"
+  }
 }
