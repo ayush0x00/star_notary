@@ -32,4 +32,20 @@ contract starNotary is ERC721{
       msg.sender.transfer(msg.value-starCost);
     }
   }
+  function lookStarInfo(uint256 tokenID) public view returns(string memory){
+    return _tokenidtoStar[tokenID]._name;
+  }
+
+  function exchangeStar(uint256 starID1,uint256 starID2) public{
+    address owner1=ownerOf(starID1);
+    address owner2=ownerOf(starID2);
+    require(owner1==msg.sender||owner2=msg.sender,"Cant exchange star you dont own");
+    _transferFrom(owner1,owner2,starID1);
+    _transferFrom(owner2,owner1,starID2);
+  }
+
+  function transferStar(address toUser, uint256 tokenID)public{
+    require(msg.sender==ownerOf(tokenID),"Cant transfer star you dont own");
+    _transferFrom(msg.sender,toUser,tokenID);
+  }
 }
