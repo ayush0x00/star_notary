@@ -70,3 +70,37 @@ it("lets user2 buy a star and decrese its balance",async()=>{
   let value2=Number(user2balanceafter)
   assert.equal(isNaN(value1),isNaN(value2));
 });
+
+it("can add star name and star symbol",async()=>{
+  let instance=await starNotary.deployed();
+  let tokenID=6;
+
+  await instance.createStar("sixth star",tokenID,{from:accounts[1]});
+  let name=await instance.name();
+  let symbol=await instance.symbol();
+
+  assert.equal(name,"StarInfo");
+  assert.equal(symbol,"STR");
+});
+
+it("exchange 2 stars",async()=>{
+  let instance=await starNotary.deployed();
+  let user1=accounts[1];
+  let user2=accounts[2];
+  let id1=7;
+  let id2=8;
+  await instance.createStar("Seventh star",id1,{from:user1});
+  await instance.createStar("Eighth star",id2,{from:user2});
+  await instance.exchangeStar(id1,id2,{from:user1});
+  assert.equal(await instance.ownerOf(id1),user2);
+  assert.equal(await instance.ownerOf(id2),user1);
+});
+
+it("lets user transfer a star",async()=>{
+  let user=accounts[1];
+  let id=9;
+  let instance=await starNotary.deployed();
+  await instance.createStar("Ninth star",id,{from:accounts[0]});
+  await instance.transferStar(user,id,{from:accounts[0]});
+  assert.equal(await instance.ownerOf(id),user);
+});
