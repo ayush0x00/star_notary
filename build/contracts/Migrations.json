@@ -913,6 +913,12 @@
     "version": "0.6.10+commit.00c0fcaf.Linux.g++"
   },
   "networks": {
+    "4": {
+      "events": {},
+      "links": {},
+      "address": "0xbCc256B18A01F9B78553E8565bF2D654434E2021",
+      "transactionHash": "0x233a714364eb64a65286a29745ff1354a8e98b1b7566f45e73551b1b07f8edaf"
+    },
     "5777": {
       "events": {},
       "links": {},
@@ -921,7 +927,7 @@
     }
   },
   "schemaVersion": "3.2.0",
-  "updatedAt": "2020-06-23T12:29:55.133Z",
+  "updatedAt": "2020-06-23T13:15:25.622Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
